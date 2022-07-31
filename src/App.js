@@ -5,6 +5,7 @@ import MoviesList from "./components/MoviesList";
 import MoviesListHeading from "./components/MoviesListHeading";
 import Search from "./components/Search";
 import MoveToFavourites from "./components/MoveToFavourites";
+import DeleteFavourites from "./components/DeleteFavourites";
 
 const App = () => {
   const [movies, setMovies] = useState([]);
@@ -27,6 +28,13 @@ const App = () => {
     setFavourites(newFavouriteList);
   };
 
+  const deleteFavouriteMovie = (movie) => {
+    const newFavouriteList = favourites.filter(
+      (favourite) => favourite.imdbID !== movie.imdbID
+    );
+    setFavourites(newFavouriteList);
+  };
+
   useEffect(() => {
     getMovieRequest(searchValue);
   }, [searchValue]);
@@ -38,13 +46,17 @@ const App = () => {
         <Search searchValue={searchValue} setSearchValue={setSearchValue} />
       </div>
       <div className="row">
-        <MoviesList movies={movies} favouriteComponent={MoveToFavourites} handleFavouritesClick={addFavouriteMovie} />
+        <MoviesList
+          movies={movies}
+          favouriteComponent={MoveToFavourites}
+          handleFavouritesClick={addFavouriteMovie}
+        />
       </div>
-      <div className='row d-flex align-items-center mt-4 mb-4'>
-      <MoviesListHeading heading='Favourites' />
+      <div className="row d-flex align-items-center mt-4 mb-4">
+        <MoviesListHeading heading="Favourites" />
       </div>
-      <div className='row'>
-      <MoviesList movies={favourites} favouriteComponent={MoveToFavourites} />
+      <div className="row">
+        <MoviesList movies={favourites} handleFavouritesClick={deleteFavouriteMovie} favouriteComponent={MoveToFavourites} />
       </div>
     </div>
   );
