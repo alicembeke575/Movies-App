@@ -12,8 +12,8 @@ const App = () => {
   const [searchValue, setSearchValue] = useState("");
   const [favourites, setFavourites] = useState([]);
 
-  const getMovieRequest = async (searchValue) => {
-    const url = `http://www.omdbapi.com/?i=${searchValue}&apikey=ff9cb379`;
+  const getMovieRequest = async () => {
+    const url = `http://www.omdbapi.com/?i=tt3896198&apikey=ff9cb379`;
 
     const response = await fetch(url);
     const responseJson = await response.json();
@@ -24,8 +24,8 @@ const App = () => {
   };
 
   useEffect(() => {
-    getMovieRequest(searchValue);
-  }, [searchValue]);
+    getMovieRequest();
+  }, []);
 
   useEffect(() => {
     const movieFavourites = JSON.parse(
