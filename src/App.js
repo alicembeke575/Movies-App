@@ -5,7 +5,7 @@ import MoviesList from "./components/MoviesList";
 import MoviesListHeading from "./components/MoviesListHeading";
 import Search from "./components/Search";
 import MoveToFavourites from "./components/MoveToFavourites";
-import DeleteFavourites from "./components/DeleteFavourites";
+import RemoveFavourites from "./components/RemoveFavourites";
 
 const App = () => {
   const [movies, setMovies] = useState([]);
@@ -23,21 +23,36 @@ const App = () => {
     }
   };
 
+  useEffect(() => {
+    getMovieRequest(searchValue);
+  }, [searchValue]);
+
+	useEffect(() => {
+		const movieFavourites = JSON.parse(
+			localStorage.getItem('react-movie-app-favourites')
+		);
+
+		setFavourites(movieFavourites);
+	}, []);
+
+	const saveToLocalStorage = (items) => {
+		localStorage.setItem('react-movie-app-favourites', JSON.stringify(items));
+	};
+
   const addFavouriteMovie = (movie) => {
     const newFavouriteList = [...favourites, movie];
     setFavourites(newFavouriteList);
+    saveToLocalStorage(newFavouriteList);
   };
 
-  const deleteFavouriteMovie = (movie) => {
+  const removeFavouriteMovie = (movie) => {
     const newFavouriteList = favourites.filter(
       (favourite) => favourite.imdbID !== movie.imdbID
     );
     setFavourites(newFavouriteList);
+    saveToLocalStorage(newFavouriteList);
   };
 
-  useEffect(() => {
-    getMovieRequest(searchValue);
-  }, [searchValue]);
 
   return (
     <div className="container-fluid movie-app">
@@ -56,7 +71,7 @@ const App = () => {
         <MoviesListHeading heading="Favourites" />
       </div>
       <div className="row">
-        <MoviesList movies={favourites} handleFavouritesClick={deleteFavouriteMovie} favouriteComponent={MoveToFavourites} />
+        <MoviesList movies={favourites} handleFavouritesClick={removeFavouriteMovie} favouriteComponent={RemoveFavourites} />
       </div>
     </div>
   );
