@@ -4,16 +4,16 @@ import "./App.css";
 import MoviesList from "./components/MoviesList";
 import MoviesListHeading from "./components/MoviesListHeading";
 import Search from "./components/Search";
-import MoveToFavourites from "./components/MoveToFavourites";
+import addFavourites from "./components/addFavourites";
 import RemoveFavourites from "./components/RemoveFavourites";
 
 const App = () => {
   const [movies, setMovies] = useState([]);
-  const [searchValue, setSearchValue] = useState("");
   const [favourites, setFavourites] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
 
-  const getMovieRequest = async () => {
-    const url = `http://www.omdbapi.com/?i=tt3896198&apikey=ff9cb379`;
+  const getMovieRequest = async (searchValue) => {
+    const url = `http://www.omdbapi.com/?s=${searchValue}&apikey=ff9cb379`;
 
     const response = await fetch(url);
     const responseJson = await response.json();
@@ -24,8 +24,8 @@ const App = () => {
   };
 
   useEffect(() => {
-    getMovieRequest();
-  }, []);
+    getMovieRequest(searchValue);
+  }, [searchValue]);
 
   useEffect(() => {
     const movieFavourites = JSON.parse(
@@ -39,7 +39,7 @@ const App = () => {
     localStorage.setItem("react-movie-app-favourites", JSON.stringify(items));
   };
 
-  const moveToFavouriteMovie = (movie) => {
+  const addFavouriteMovie = (movie) => {
     const newFavouriteList = [...favourites, movie];
     setFavourites(newFavouriteList);
     saveToLocalStorage(newFavouriteList);
@@ -62,8 +62,8 @@ const App = () => {
       <div className="row">
         <MoviesList
           movies={movies}
-          handleFavouritesClick={moveToFavouriteMovie}
-          favouriteComponent={MoveToFavourites}
+          handleFavouritesClick={addFavouriteMovie}
+          favouriteComponent={addFavourites}
         />
       </div>
       <div className="row d-flex align-items-center mt-4 mb-4">
