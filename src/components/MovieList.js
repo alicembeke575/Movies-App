@@ -1,6 +1,6 @@
 import React from "react";
 
-const MoviesList = (props) => {
+const MovieList = (props) => {
   const FavouriteComponent = props.favouriteComponent;
   return (
     <>
@@ -19,4 +19,4 @@ const MoviesList = (props) => {
   );
 };
 
-export default MoviesList;
+export default MovieList;

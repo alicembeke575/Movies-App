@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-import MoviesList from "./components/MoviesList";
-import MoviesListHeading from "./components/MoviesListHeading";
+import MovieList from "./components/MovieList";
+import MovieListHeading from "./components/MovieListHeading";
 import Search from "./components/Search";
-import addFavourites from "./components/addFavourites";
+import AddFavourites from "./components/AddToFavourites";
 import RemoveFavourites from "./components/RemoveFavourites";
 
 const App = () => {
@@ -49,6 +49,7 @@ const App = () => {
     const newFavouriteList = favourites.filter(
       (favourite) => favourite.imdbID !== movie.imdbID
     );
+
     setFavourites(newFavouriteList);
     saveToLocalStorage(newFavouriteList);
   };
@@ -56,21 +57,21 @@ const App = () => {
   return (
     <div className="container-fluid movie-app">
       <div className="row d-flex align-items-center mt-4 mb-4">
-        <MoviesListHeading heading="Movies" />
+        <MovieListHeading heading="Movies" />
         <Search searchValue={searchValue} setSearchValue={setSearchValue} />
       </div>
       <div className="row">
-        <MoviesList
+        <MovieList
           movies={movies}
           handleFavouritesClick={addFavouriteMovie}
-          favouriteComponent={addFavourites}
+          favouriteComponent={AddFavourites}
         />
       </div>
       <div className="row d-flex align-items-center mt-4 mb-4">
-        <MoviesListHeading heading="Favourites" />
+        <MovieListHeading heading="Favourites" />
       </div>
       <div className="row">
-        <MoviesList
+        <MovieList
           movies={favourites}
           handleFavouritesClick={removeFavouriteMovie}
           favouriteComponent={RemoveFavourites}
